@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Coffee Shop – 3D Ad</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+@property --bg1{syntax:'<color>';inherits:true;initial-value:#3a1d0c}
+@property --bg2{syntax:'<color>';inherits:true;initial-value:#0d0603}
+:root{--accent:#e0a35c;--cream:#f6e7d0;--bg1:#3a1d0c;--bg2:#0d0603}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,sans-serif;color:var(--cream);background:#0d0603}
+.hero{position:relative;height:100vh;min-height:580px;overflow:hidden;
+  background:radial-gradient(circle at 68% 52%,var(--bg1),var(--bg2) 72%);
+  transition:--bg1 1.2s,--bg2 1.2s}
+#c{position:absolute;inset:0;width:100%;height:100%;display:block}
+nav{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:22px 6vw;z-index:3}
+.logo{font:900 1.5rem 'Playfair Display',Georgia,serif;letter-spacing:.5px}
+nav a{color:var(--cream);text-decoration:none;font-weight:400;margin-left:26px;opacity:.8}
+nav a:hover{opacity:1;color:var(--accent)}
+.copy{position:absolute;z-index:2;left:6vw;top:50%;transform:translateY(-50%);max-width:470px;pointer-events:none}
+.copy button,.copy a{pointer-events:auto}
+.copy .kind{color:var(--accent);font-weight:600;margin:0 0 6px}
+.copy h1{font:900 clamp(2.6rem,6.4vw,5.4rem)/1 'Playfair Display',Georgia,serif;margin:0 0 14px}
+.copy p.desc{font-weight:300;line-height:1.7;margin:0 0 20px;max-width:420px}
+.price{font:700 1.8rem 'Playfair Display',serif;margin-right:18px}
+.btn{background:var(--accent);color:#2a1407;border:0;padding:13px 26px;border-radius:40px;font:600 .95rem Poppins,sans-serif;cursor:pointer;transition:transform .2s}
+.btn:hover{transform:scale(1.07)}
+.btn:focus-visible,.arrow:focus-visible,.dot:focus-visible,.f:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.swap>*{animation:rise .8s cubic-bezier(.2,.8,.2,1) both}
+.swap>*:nth-child(2){animation-delay:.08s}.swap>*:nth-child(3){animation-delay:.16s}.swap>*:nth-child(4){animation-delay:.24s}
+@keyframes rise{from{opacity:0;transform:translateY(34px)}to{opacity:1;transform:none}}
+.ctrl{position:absolute;z-index:3;bottom:30px;left:6vw;display:flex;align-items:center;gap:12px}
+.arrow{width:44px;height:44px;border-radius:50%;border:1px solid var(--cream);background:transparent;color:var(--cream);font-size:1.1rem;cursor:pointer}
+.arrow:hover{background:var(--accent);color:#2a1407;border-color:var(--accent)}
+.dot{width:10px;height:10px;border-radius:50%;border:0;background:#fff4;cursor:pointer;padding:0;transition:.3s}
+.dot.on{background:var(--accent);width:28px;border-radius:6px}
+#loadmsg{position:absolute;inset:0;display:grid;place-items:center;z-index:1;opacity:.7}
+
+#menu{padding:80px 6vw;background:#0d0603}
+#menu h2{font:900 clamp(2rem,4vw,3rem) 'Playfair Display',serif;margin:0 0 28px}
+.dash{display:grid;grid-template-columns:230px 1fr;gap:28px}
+.side{background:#1a0e07;border:1px solid #3a2414;border-radius:18px;padding:22px;height:max-content}
+.side h3{margin:0 0 12px;font-size:.95rem;font-weight:600;color:var(--accent)}
+.f{display:block;width:100%;text-align:left;background:transparent;border:0;color:var(--cream);padding:10px 12px;border-radius:10px;font:400 .95rem Poppins,sans-serif;cursor:pointer}
+.f.on,.f:hover{background:#2e1b0e;color:var(--accent)}
+.stat{margin-top:20px;border-top:1px solid #3a2414;padding-top:16px}
+.stat b{font:700 2rem 'Playfair Display',serif;display:block}
+.stat span{font-size:.8rem;opacity:.7}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:20px;perspective:900px}
+.card{background:linear-gradient(160deg,#27160a,#170c05);border:1px solid #3a2414;border-radius:18px;padding:22px;cursor:pointer;transition:transform .15s,border-color .3s;transform-style:preserve-3d}
+.card:hover{border-color:var(--accent)}
+.mini{width:96px;height:96px;border-radius:50%;margin:0 auto 14px;transform:translateZ(40px);
+  background:radial-gradient(circle,var(--c) 0 50%,#fff 52% 68%,#d9cbb8 70% 100%);box-shadow:0 18px 24px #0008;animation:fl 4s ease-in-out infinite}
+@keyframes fl{50%{translate:0 -6px}}
+.card h4{margin:0 0 4px;font:700 1.2rem 'Playfair Display',serif;transform:translateZ(25px)}
+.card small{opacity:.65;display:block;margin-bottom:12px}
+.bar{font-size:.72rem;margin:7px 0 3px;opacity:.8}
+.bar i{display:block;height:6px;border-radius:4px;background:#3a2414;overflow:hidden}
+.bar i u{display:block;height:100%;width:0;background:var(--accent);border-radius:4px;transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+.card .p{margin-top:12px;font-weight:600;color:var(--accent)}
+#about{padding:90px 6vw;background:linear-gradient(#0d0603,#1a0e07)}
+#about .wrap{max-width:900px;margin:auto}
+#about h2{font:900 clamp(2rem,4vw,3rem) 'Playfair Display',serif;margin:0 0 18px}
+#about p{font-weight:300;line-height:1.8;max-width:620px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-top:34px}
+.facts div{border-left:3px solid var(--accent);padding-left:16px}
+.facts b{font:700 1.6rem 'Playfair Display',serif;display:block}
+.facts span{font-size:.85rem;opacity:.7}
+#thanks{min-height:100vh;display:grid;place-content:center;text-align:center;padding:40px 6vw;
+  background:radial-gradient(circle at 50% 45%,#4a2a14,#0d0603 70%)}
+#thanks h2{font:900 clamp(3rem,10vw,8rem)/1 'Playfair Display',serif;margin:0 0 16px}
+#thanks p{font-weight:300;margin:0 0 26px}
+@media(max-width:800px){
+  .copy{top:auto;bottom:100px;transform:none;max-width:88vw}
+  .copy p.desc{font-size:.9rem;margin-bottom:14px}
+  nav a{display:none}
+  .dash{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="hero" id="hero">
+  <canvas id="c" aria-label="3D coffee cup"></canvas>
+  <div id="loadmsg">Loading 3D coffee…</div>
+  <nav>
+    <div class="logo">Coffee Shop</div>
+    <div><a href="#hero">Home</a><a href="#menu">Menu</a><a href="#about">About</a><a href="#" id="play" style="color:var(--accent);font-weight:600">&#9654; Play ad</a></div>
+  </nav>
+  <div class="copy swap" id="copy">
+    <p class="kind" id="kind"></p>
+    <h1 id="name"></h1>
+    <p class="desc" id="desc"></p>
+    <div><span class="price" id="price"></span><a class="btn" href="#menu" style="text-decoration:none;display:inline-block">See full menu</a></div>
+  </div>
+  <div class="ctrl">
+    <button class="arrow" id="prev" aria-label="Previous coffee">&#8592;</button>
+    <button class="arrow" id="next" aria-label="Next coffee">&#8594;</button>
+    <div id="dots" style="display:flex;gap:8px;align-items:center;margin-left:8px"></div>
+  </div>
+</header>
+
+<section id="menu">
+  <h2>Our coffee menu</h2>
+  <div class="dash">
+    <aside class="side">
+      <h3>Browse</h3>
+      <button class="f on" data-f="all">All coffees</button>
+      <button class="f" data-f="hot">Hot</button>
+      <button class="f" data-f="cold">Cold</button>
+      <div class="stat"><b id="cups">0</b><span>cups served today</span></div>
+      <div class="stat"><b id="count">0</b><span>varieties on the menu</span></div>
+    </aside>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <h2>About Coffee Shop</h2>
+    <p>We started with one idea: a great cup should feel like a small celebration. Our beans are roasted in small batches, our milk is steamed to order, and every drink is made fresh while you watch. (Yahan apni shop ki real kahani likh do.)</p>
+    <div class="facts">
+      <div><b>6 coffees</b><span>from hot espresso to cold brew</span></div>
+      <div><b>Fresh daily</b><span>beans roasted every morning</span></div>
+      <div><b>8 AM &ndash; 11 PM</b><span>open every day</span></div>
+    </div>
+  </div>
+</section>
+
+<footer id="thanks">
+  <h2>Thank you</h2>
+  <p>See you at Coffee Shop. Your cup is waiting.</p>
+  <div><a class="btn" href="#" id="again" style="text-decoration:none;display:inline-block">Watch again</a></div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* ---------- 1. DATA: yahan apni coffee add/edit kar sakte ho ---------- */
+const COFFEES = [
+  {n:'Espresso',   k:'Hot',  t:'hot',  c:'#3a1c0d', c2:'#7a4a24', bg:['#3a1d0c','#0d0603'], price:120, str:95, sweet:10, steam:1,   heart:false,
+   d:'Short, bold and full of crema. One shot, zero compromise.'},
+  {n:'Cappuccino', k:'Hot',  t:'hot',  c:'#9a6a43', c2:'#d9b48a', bg:['#4a2a14','#120804'], price:160, str:60, sweet:35, steam:1,   heart:true,
+   d:'Equal parts espresso, steamed milk and silky foam.'},
+  {n:'Caffe Latte',k:'Hot',  t:'hot',  c:'#b88a5e', c2:'#e8cfa9', bg:['#51341c','#140a05'], price:170, str:40, sweet:45, steam:1,   heart:true,
+   d:'Smooth and creamy, with a little latte art on top.'},
+  {n:'Mocha',      k:'Hot',  t:'hot',  c:'#4a2616', c2:'#8a5238', bg:['#3e1a12','#0f0505'], price:190, str:55, sweet:75, steam:1,   heart:false,
+   d:'Espresso meets rich chocolate and a cloud of cream.'},
+  {n:'Cold Brew',  k:'Cold', t:'cold', c:'#24120a', c2:'#5a3520', bg:['#14252b','#050a0c'], price:180, str:80, sweet:20, steam:0.15,heart:false,
+   d:'Steeped for 18 hours, served over ice. Cool and strong.'},
+  {n:'Caramel Macchiato',k:'Cold',t:'cold',c:'#b9823f',c2:'#f0c98a',bg:['#4d3012','#120a03'], price:210, str:45, sweet:85, steam:0.35,heart:false,
+   d:'Vanilla, milk, espresso and a golden caramel drizzle.'},
+  /* x:1 = special scenes (menu mein card nahi banta) */
+  {n:'Coffee Shop',k:'About us',x:1,t:'',c:'#3a1c0d',c2:'#7a4a24',bg:['#2f2410','#0c0803'],steam:1,heart:false,
+   d:'We roast in small batches every morning and brew each cup fresh, from bold espresso to cool cold brew.'},
+  {n:'Thank you!',k:'See you soon',x:1,t:'',c:'#b88a5e',c2:'#e8cfa9',bg:['#51341c','#140a05'],steam:1,heart:true,
+   d:'Come visit Coffee Shop and taste your favourite cup.'}
+];
+
+/* ---------- 2. HERO TEXT + SLIDES ---------- */
+let idx = 0, timer, t0 = performance.now();
+const $ = id => document.getElementById(id);
+const dotsEl = $('dots');
+COFFEES.forEach((_, i) => {
+  const b = document.createElement('button');
+  b.className = 'dot'; b.setAttribute('aria-label', 'Show ' + COFFEES[i].n);
+  b.onclick = () => { go(i); restart(); };
+  dotsEl.appendChild(b);
+});
+function setText(){
+  const v = COFFEES[idx], c = $('copy');
+  $('kind').textContent = v.x ? v.k : v.k + ' coffee';
+  $('name').textContent = v.n;
+  $('desc').textContent = v.d;
+  $('price').textContent = v.x ? '' : '₹' + v.price;
+  c.classList.remove('swap'); void c.offsetWidth; c.classList.add('swap');
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('on', i === idx));
+  const h = $('hero').style;
+  h.setProperty('--bg1', v.bg[0]); h.setProperty('--bg2', v.bg[1]);
+}
+function go(i){
+  idx = (i + COFFEES.length) % COFFEES.length;
+  setText(); paintCoffee(); kick = 1; spinT += Math.PI * 2; t0 = performance.now();
+}
+function restart(){ clearInterval(timer); timer = setInterval(() => go(idx + 1), 4500); }
+$('next').onclick = () => { go(idx + 1); restart(); };
+$('prev').onclick = () => { go(idx - 1); restart(); };
+
+/* ---------- 3. THREE.JS 3D SCENE ---------- */
+let kick = 0, spinT = 0, spin = 0, mx = 0, my = 0;
+const canvas = $('c');
+let renderer, scene, camera, world, cup, coffeeMat, tex, art, steams = [], beans;
+
+try {
+  renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+  $('loadmsg').remove();
+} catch(e) { $('loadmsg').textContent = 'WebGL is not supported in this browser.'; }
+
+if (renderer){
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.shadowMap.enabled = true;
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
+  world = new THREE.Group(); scene.add(world);
+
+  // lights
+  scene.add(new THREE.HemisphereLight(0xfff0dd, 0x2a1408, 0.7));
+  const key = new THREE.DirectionalLight(0xffe2bd, 1.6);
+  key.position.set(4, 8, 5); key.castShadow = true;
+  key.shadow.mapSize.set(1024, 1024);
+  Object.assign(key.shadow.camera, {left:-5, right:5, top:5, bottom:-5});
+  scene.add(key);
+  const rim = new THREE.PointLight(0xffa24d, 1.2, 30); rim.position.set(-5, 3, -4); scene.add(rim);
+
+  // cup (Lathe = profile ko ghuma ke 3D shape)
+  cup = new THREE.Group(); world.add(cup);
+  const P = [[0,0],[.7,0],[.9,.1],[1.25,.9],[1.4,1.7],[1.43,1.78],[1.36,1.8],[1.28,1.7],[1.14,.9],[.7,.22],[0,.2]]
+            .map(p => new THREE.Vector2(p[0], p[1]));
+  const ceramic = new THREE.MeshStandardMaterial({color:0xfaf6ee, roughness:.22, metalness:.05, side:THREE.DoubleSide});
+  const body = new THREE.Mesh(new THREE.LatheGeometry(P, 72), ceramic);
+  body.castShadow = body.receiveShadow = true; cup.add(body);
+  const handle = new THREE.Mesh(new THREE.TorusGeometry(.5, .12, 20, 48, Math.PI * 1.25), ceramic);
+  handle.position.set(1.3, 1.05, 0); handle.rotation.z = -Math.PI * .62; handle.castShadow = true; cup.add(handle);
+  const S = [[0,0],[1.6,0],[2.3,.12],[2.6,.3],[2.55,.33],[2.2,.2],[1.5,.12],[0,.1]].map(p => new THREE.Vector2(p[0], p[1]));
+  const saucer = new THREE.Mesh(new THREE.LatheGeometry(S, 72), ceramic);
+  saucer.position.y = -.1; saucer.receiveShadow = saucer.castShadow = true; cup.add(saucer);
+
+  // coffee surface (canvas texture = latte art)
+  art = document.createElement('canvas'); art.width = art.height = 512;
+  tex = new THREE.CanvasTexture(art);
+  coffeeMat = new THREE.MeshStandardMaterial({map:tex, roughness:.15, metalness:.1});
+  const surf = new THREE.Mesh(new THREE.CircleGeometry(1.2, 64), coffeeMat);
+  surf.rotation.x = -Math.PI / 2; surf.position.y = 1.52; cup.add(surf);
+
+  // floor shadow
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.ShadowMaterial({opacity:.45}));
+  floor.rotation.x = -Math.PI / 2; floor.position.y = -.12; floor.receiveShadow = true; world.add(floor);
+
+  // coffee beans
+  beans = new THREE.Group(); world.add(beans);
+  const beanMat = new THREE.MeshStandardMaterial({color:0x3b1e0e, roughness:.5});
+  const groove = new THREE.MeshStandardMaterial({color:0x140803});
+  for (let i = 0; i < 16; i++){
+    const b = new THREE.Group();
+    const m = new THREE.Mesh(new THREE.SphereGeometry(.22, 20, 16), beanMat); m.scale.set(1, .62, .75); m.castShadow = true;
+    const g = new THREE.Mesh(new THREE.BoxGeometry(.5, .02, .05), groove); g.position.y = .135; g.rotation.z = .1;
+    b.add(m, g);
+    const a = Math.random() * 6.28, r = 3.4 + Math.random() * 2.2;
+    b.position.set(Math.cos(a) * r, .8 + Math.random() * 2.6, Math.sin(a) * r - 1);
+    b.userData = {s:.4 + Math.random() * .9, ph:Math.random() * 6};
+    b.scale.setScalar(.7 + Math.random() * .8);
+    beans.add(b);
+  }
+
+  // steam
+  const sc = document.createElement('canvas'); sc.width = sc.height = 64;
+  const sg = sc.getContext('2d'), gr = sg.createRadialGradient(32,32,2,32,32,32);
+  gr.addColorStop(0, 'rgba(255,255,255,.55)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
+  sg.fillStyle = gr; sg.fillRect(0,0,64,64);
+  const stex = new THREE.CanvasTexture(sc);
+  for (let i = 0; i < 16; i++){
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({map:stex, transparent:true, depthWrite:false}));
+    sp.userData.t = Math.random(); steams.push(sp); cup.add(sp);
+  }
+
+  function resize(){
+    const w = hero.clientWidth, h = hero.clientHeight, wide = w > 800;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h; camera.updateProjectionMatrix();
+    world.position.set(wide ? 1.9 : 0, wide ? -.9 : .6, 0);
+    camera.userData.base = wide ? 9.5 : 12.5;
+  }
+  addEventListener('resize', resize); resize();
+  addEventListener('mousemove', e => { mx = e.clientX / innerWidth - .5; my = e.clientY / innerHeight - .5; });
+
+  const clock = new THREE.Clock();
+  (function loop(){
+    requestAnimationFrame(loop);
+    const t = clock.getElapsedTime();
+    spin += (spinT - spin) * .05;
+    cup.rotation.y = spin + Math.sin(t * .4) * .25 + mx * .6;
+    cup.rotation.x = my * .18;
+    cup.position.y = Math.sin(t * 1.2) * .07;
+    kick *= .955;
+    const push = Math.min((performance.now() - t0) / 4500, 1) * 1.4; /* slow cinematic zoom-in */
+    camera.position.set(mx * 1.2 + Math.sin(t * .5) * 1.2, 3.4 - my + Math.sin(t * .35) * .4, camera.userData.base - Math.sin(kick * Math.PI) * 2.6 - push);
+    camera.lookAt(world.position.x * .5, .9 + world.position.y * .3, 0);
+    beans.rotation.y = t * .08;
+    beans.children.forEach(b => { b.rotation.x += .006 * b.userData.s; b.rotation.y += .01 * b.userData.s; b.position.y += Math.sin(t + b.userData.ph) * .002; });
+    const amt = COFFEES[idx].steam;
+    steams.forEach(s => {
+      s.userData.t = (s.userData.t + .004) % 1;
+      const u = s.userData.t;
+      s.position.set(Math.sin(u * 8 + s.id) * .35, 1.6 + u * 2.6, Math.cos(u * 6 + s.id) * .2);
+      s.scale.setScalar(.5 + u * 1.6);
+      s.material.opacity = Math.sin(u * Math.PI) * .55 * amt;
+    });
+    renderer.render(scene, camera);
+  })();
+}
+
+function paintCoffee(){
+  if (!renderer) return;
+  const v = COFFEES[idx], g = art.getContext('2d');
+  const gr = g.createRadialGradient(256,256,10,256,256,256);
+  gr.addColorStop(0, v.c2); gr.addColorStop(.55, v.c); gr.addColorStop(1, '#1a0b05');
+  g.fillStyle = gr; g.fillRect(0,0,512,512);
+  g.filter = 'blur(5px)';
+  if (v.heart){
+    g.fillStyle = 'rgba(255,243,226,.92)'; g.beginPath(); g.moveTo(256,400);
+    g.bezierCurveTo(80,280,130,110,256,200); g.bezierCurveTo(382,110,432,280,256,400); g.fill();
+  } else {
+    g.strokeStyle = 'rgba(255,205,150,.28)'; g.lineWidth = 14; g.beginPath();
+    for (let a = 0; a < 18; a += .1){ const r = 8 + a * 12; g.lineTo(256 + Math.cos(a) * r, 256 + Math.sin(a) * r); }
+    g.stroke();
+  }
+  g.filter = 'none'; tex.needsUpdate = true;
+}
+
+/* ---------- 4. DASHBOARD MENU ---------- */
+const grid = $('grid');
+function renderMenu(filter){
+  grid.innerHTML = '';
+  COFFEES.forEach((v, i) => {
+    if (v.x || (filter !== 'all' && v.t !== filter)) return;
+    const el = document.createElement('div');
+    el.className = 'card'; el.style.setProperty('--c', v.c2);
+    el.innerHTML = `<div class="mini"></div><h4>${v.n}</h4><small>${v.k}</small>
+      <div class="bar">Strength<i><u data-w="${v.str}"></u></i></div>
+      <div class="bar">Sweetness<i><u data-w="${v.sweet}"></u></i></div>
+      <div class="p">₹${v.price}</div>`;
+    el.onclick = () => { go(i); restart(); scrollTo({top:0, behavior:'smooth'}); };
+    el.onmousemove = e => {
+      const r = el.getBoundingClientRect();
+      el.style.transform = `rotateY(${((e.clientX - r.left) / r.width - .5) * 22}deg) rotateX(${-((e.clientY - r.top) / r.height - .5) * 22}deg)`;
+    };
+    el.onmouseleave = () => el.style.transform = '';
+    grid.appendChild(el);
+  });
+  $('count').textContent = grid.children.length;
+  barObs.disconnect(); grid.querySelectorAll('.card').forEach(c => barObs.observe(c));
+}
+const barObs = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting){ e.target.querySelectorAll('u').forEach(u => u.style.width = u.dataset.w + '%'); barObs.unobserve(e.target); }
+}), {threshold:.3});
+document.querySelectorAll('.f').forEach(b => b.onclick = () => {
+  document.querySelectorAll('.f').forEach(x => x.classList.remove('on')); b.classList.add('on'); renderMenu(b.dataset.f);
+});
+let cups = 0; const goal = 248;
+const cnt = setInterval(() => { cups += 4; $('cups').textContent = Math.min(cups, goal); if (cups >= goal) clearInterval(cnt); }, 25);
+
+/* ---------- 5. AUTO TOUR: hero scenes -> menu -> about -> thank you ---------- */
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+let touring = false, stop = false;
+['wheel','touchstart','keydown'].forEach(e => addEventListener(e, () => { if (touring) stop = true; }, {passive:true}));
+async function tour(){
+  if (touring) return; touring = true; stop = false;
+  scrollTo({top:0}); clearInterval(timer);
+  for (let i = 0; i < COFFEES.length && !stop; i++){ go(i); await sleep(4500); }
+  for (const id of ['menu','about','thanks']){
+    if (stop) break; $(id).scrollIntoView({behavior:'smooth'}); await sleep(4500);
+  }
+  touring = false; restart();
+}
+$('play').onclick = $('again').onclick = e => { e.preventDefault(); touring = false; tour(); };
+
+/* start */
+renderMenu('all'); setText(); paintCoffee(); restart(); setTimeout(tour, 800);
+</script>
+</body>
+</html>
